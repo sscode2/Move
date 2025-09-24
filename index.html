@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVerse | Movie Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #141414;
+            --text-color: #ffffff;
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --border-color: #333;
+            --accent-color: #ff6b6b;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .light-mode {
+            --primary-color: #e50914;
+            --secondary-color: #f5f5f5;
+            --text-color: #333333;
+            --bg-color: #ffffff;
+            --card-bg: #f9f9f9;
+            --border-color: #ddd;
+            --accent-color: #ff6b6b;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background-color: #b8070f;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo span {
+            color: var(--text-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 5px;
+            width: 150px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            background: transparent;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Featured Posts */
+        .featured-posts {
+            padding: 80px 0;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 20px;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .post-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .post-excerpt {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Blog Section */
+        .blog-section {
+            padding: 80px 0;
+            background-color: var(--secondary-color);
+        }
+
+        /* Single Blog Page */
+        .single-blog {
+            padding: 80px 0;
+        }
+
+        .blog-header {
+            margin-bottom: 40px;
+        }
+
+        .blog-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .blog-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .blog-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .blog-content h2 {
+            margin: 30px 0 15px;
+            font-size: 1.8rem;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 40px 0;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+            color: white;
+        }
+
+        .linkedin {
+            background-color: #0077b5;
+            color: white;
+        }
+
+        .comments-section {
+            margin-top: 50px;
+        }
+
+        .comment-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: inherit;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .comments-list {
+            margin-top: 30px;
+        }
+
+        .comment {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Admin Form */
+        .admin-section {
+            padding: 80px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .admin-form {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* About & Contact Pages */
+        .about-section, .contact-section {
+            padding: 80px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .footer-about p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--secondary-color);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: var(--shadow);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .blog-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 60vh;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Cine<span>Verse</span></a>
+                
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#blog" class="nav-link">Blog</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#admin" class="nav-link">Admin</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search...">
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="hamburger" id="hamburger">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <!-- Homepage -->
+        <section id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Discover the Magic of Cinema</h1>
+                        <p>Your ultimate destination for movie reviews, industry insights, and behind-the-scenes stories from the world of film.</p>
+                        <a href="#blog" class="btn">Explore Blogs</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Posts -->
+            <section class="featured-posts">
+                <div class="container">
+                    <h2 class="section-title">Featured Posts</h2>
+                    <div class="posts-grid" id="featured-posts-grid">
+                        <!-- Featured posts will be dynamically loaded here -->
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="page hidden">
+            <div class="container">
+                <div class="blog-section">
+                    <h2 class="section-title">All Blog Posts</h2>
+                    <div class="posts-grid" id="blog-posts-grid">
+                        <!-- All blog posts will be dynamically loaded here -->
+                    </div>
+                    <div class="text-center mt-20">
+                        <button class="btn" id="load-more">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Single Blog Page -->
+        <section id="single-blog" class="page hidden">
+            <div class="container">
+                <div class="single-blog">
+                    <article id="blog-content">
+                        <!-- Single blog content will be dynamically loaded here -->
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page hidden">
+            <div class="container">
+                <div class="about-section">
+                    <h2 class="section-title">About CineVerse</h2>
+                    <div class="about-content">
+                        <p>Welcome to CineVerse, your premier destination for all things cinema. Founded in 2023, our blog is dedicated to exploring the art, science, and magic of filmmaking.</p>
+                        <p>Our team of passionate cinephiles and industry experts brings you in-depth reviews, exclusive interviews, behind-the-scenes insights, and thoughtful analysis of both classic films and the latest blockbusters.</p>
+                        <p>We believe that movies are more than just entertainment—they're a reflection of our culture, a form of artistic expression, and a powerful medium for storytelling. Our mission is to celebrate this art form and foster a community of film lovers who appreciate the craft and creativity that goes into every frame.</p>
+                        <p>Join us on this cinematic journey as we explore the stories behind the screen and the magic that happens when lights dim and the projector starts rolling.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="contact" class="page hidden">
+            <div class="container">
+                <div class="contact-section">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Page -->
+        <section id="admin" class="page hidden">
+            <div class="container">
+                <div class="admin-section">
+                    <h2 class="section-title">Add New Blog Post</h2>
+                    <form class="admin-form" id="blog-form">
+                        <div class="form-group">
+                            <label for="title">Blog Title</label>
+                            <input type="text" id="title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image URL</label>
+                            <input type="text" id="image" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="excerpt">Short Description</label>
+                            <textarea id="excerpt" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Blog Content</label>
+                            <textarea id="content" class="form-control" rows="10" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">Tags (comma separated)</label>
+                            <input type="text" id="tags" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn">Publish Blog</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">CineVerse</div>
+                    <p>Your ultimate destination for movie reviews, industry insights, and behind-the-scenes stories from the world of film.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#">Movie Reviews</a></li>
+                        <li><a href="#">Industry News</a></li>
+                        <li><a href="#">Director Spotlights</a></li>
+                        <li><a href="#">Film Analysis</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 CineVerse. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample blog data
+        const sampleBlogs = [
+            {
+                id: 1,
+                title: "The Cinematic Revolution of Christopher Nolan",
+                image: "https://images.unsplash.com/photo-1585951237318-9ea5e175b891?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                excerpt: "Exploring how Christopher Nolan has redefined modern filmmaking with his innovative techniques and complex narratives.",
+                content: "<p>Christopher Nolan is undoubtedly one of the most influential filmmakers of our time. With a career spanning over two decades, he has consistently pushed the boundaries of what's possible in cinema.</p><p>From the mind-bending narrative structure of 'Memento' to the practical effects masterpiece of 'Inception' and the interstellar journey of 'Interstellar', Nolan has proven that big-budget films can be both commercially successful and intellectually stimulating.</p><h2>The Nolan Signature</h2><p>What sets Nolan apart is his commitment to practical effects. While most directors rely heavily on CGI, Nolan prefers to create as much as possible in-camera. This dedication to realism gives his films a tangible quality that resonates with audiences.</p><p>His collaboration with cinematographer Wally Pfister (and later Hoyte van Hoytema) has resulted in some of the most visually stunning films of the 21st century. The use of IMAX cameras for large portions of his recent films has created an immersive experience that's hard to replicate.</p>",
+                author: "Alex Johnson",
+                date: "2023-10-15",
+                tags: ["Christopher Nolan", "Filmmaking", "Cinematography"]
+            },
+            {
+                id: 2,
+                title: "Why Independent Films Matter More Than Ever",
+                image: "https://images.unsplash.com/photo-1489599809519-e0c2b1b6be35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                excerpt: "In an era of blockbuster franchises, independent cinema continues to be the heart of artistic innovation.",
+                content: "<p>While Marvel and DC dominate the box office, independent films continue to be the lifeblood of cinematic artistry. These smaller productions often take risks that major studios avoid, resulting in some of the most original and thought-provoking stories.</p><p>Independent films provide a platform for diverse voices and stories that might not find a place in mainstream cinema. They explore complex themes and human experiences with a rawness that big-budget films often sanitize.</p><h2>The Impact of Streaming</h2><p>Streaming platforms have revolutionized independent film distribution. Services like Netflix, Amazon Prime, and Hulu have made it easier than ever for indie films to find their audience. This has created new opportunities for filmmakers who might have struggled to secure traditional distribution.</p><p>However, this shift also presents challenges. The sheer volume of content available means that standout films can still get lost in the algorithm. Film festivals remain crucial for building buzz and connecting with audiences.</p>",
+                author: "Maria Rodriguez",
+                date: "2023-10-10",
+                tags: ["Independent Film", "Streaming", "Film Festivals"]
+            },
+            {
+                id: 3,
+                title: "The Art of Film Scoring: From Bernard Herrmann to Hans Zimmer",
+                image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                excerpt: "How film composers create emotional landscapes that elevate storytelling to new heights.",
+                content: "<p>While audiences watch the visuals and follow the plot, it's often the music that truly makes them feel. Film scoring is an art form that has evolved dramatically over the decades, yet its purpose remains the same: to enhance the emotional impact of the story.</p><p>From Bernard Herrmann's tense strings in 'Psycho' to John Williams' epic themes in 'Star Wars' and Hans Zimmer's powerful compositions for 'Inception' and 'Dune', film composers have shaped how we experience cinema.</p><h2>The Evolution of Film Music</h2><p>Early film scores were often adaptations of classical music, but composers like Max Steiner began creating original compositions specifically for films in the 1930s. This marked the beginning of film scoring as we know it today.</p><p>Modern film scoring incorporates electronic elements, world music influences, and innovative recording techniques. Composers like Trent Reznor and Atticus Ross have brought a completely different sensibility to film music with their work on 'The Social Network' and other films.</p>",
+                author: "David Chen",
+                date: "2023-10-05",
+                tags: ["Film Scores", "Music", "Soundtrack"]
+            }
+        ];
+
+        // DOM Elements
+        const mainContent = document.getElementById('main-content');
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const themeToggle = document.getElementById('theme-toggle');
+        const hamburger = document.getElementById('hamburger');
+        const navLinksContainer = document.querySelector('.nav-links');
+        const searchInput = document.getElementById('search-input');
+        const featuredPostsGrid = document.getElementById('featured-posts-grid');
+        const blogPostsGrid = document.getElementById('blog-posts-grid');
+        const blogContent = document.getElementById('blog-content');
+        const blogForm = document.getElementById('blog-form');
+        const contactForm = document.getElementById('contact-form');
+        const loadMoreBtn = document.getElementById('load-more');
+
+        // Initialize blog posts from localStorage or sample data
+        let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || sampleBlogs;
+        let currentPage = 1;
+        const postsPerPage = 6;
+        let filteredPosts = [];
+
+        // Initialize the website
+        function init() {
+            renderFeaturedPosts();
+            renderBlogPosts();
+            setupEventListeners();
+            checkThemePreference();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetPage = link.getAttribute('href').substring(1);
+                    showPage(targetPage);
+                    
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Close mobile menu if open
+                    navLinksContainer.classList.remove('active');
+                });
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Hamburger menu
+            hamburger.addEventListener('click', () => {
+                navLinksContainer.classList.toggle('active');
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', handleSearch);
+
+            // Blog form submission
+            blogForm.addEventListener('submit', handleBlogSubmit);
+
+            // Contact form submission
+            contactForm.addEventListener('submit', handleContactSubmit);
+
+            // Load more button
+            loadMoreBtn.addEventListener('click', loadMorePosts);
+        }
+
+        // Show specific page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                } else {
+                    page.classList.add('hidden');
+                }
+            });
+
+            // Special handling for blog page
+            if (pageId === 'blog') {
+                renderBlogPosts();
+            }
+        }
+
+        // Toggle between dark and light mode
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const icon = themeToggle.querySelector('i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check user's theme preference
+        function checkThemePreference() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            
+            if (savedTheme === 'light' || (!savedTheme && prefersLight)) {
+                document.body.classList.add('light-mode');
+                const icon = themeToggle.querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        // Render featured posts
+        function renderFeaturedPosts() {
+            featuredPostsGrid.innerHTML = '';
+            const featuredPosts = blogPosts.slice(0, 3);
+            
+            featuredPosts.forEach(post => {
+                const postCard = createPostCard(post);
+                featuredPostsGrid.appendChild(postCard);
+            });
+        }
+
+        // Render blog posts with pagination
+        function renderBlogPosts(searchTerm = '') {
+            blogPostsGrid.innerHTML = '';
+            currentPage = 1;
+            
+            // Filter posts if search term exists
+            if (searchTerm) {
+                filteredPosts = blogPosts.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+                );
+            } else {
+                filteredPosts = [...blogPosts];
+            }
+            
+            // Display posts for current page
+            const startIndex = 0;
+            const endIndex = Math.min(currentPage * postsPerPage, filteredPosts.length);
+            const postsToShow = filteredPosts.slice(startIndex, endIndex);
+            
+            postsToShow.forEach(post => {
+                const postCard = createPostCard(post);
+                blogPostsGrid.appendChild(postCard);
+            });
+            
+            // Show/hide load more button
+            loadMoreBtn.style.display = endIndex < filteredPosts.length ? 'block' : 'none';
+        }
+
+        // Create post card element
+        function createPostCard(post) {
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <img src="${post.image}" alt="${post.title}" class="post-img">
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span>By ${post.author}</span>
+                        <span>${formatDate(post.date)}</span>
+                    </div>
+                    <h3 class="post-title">${post.title}</h3>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="#" class="btn read-more" data-id="${post.id}">Read More</a>
+                </div>
+            `;
+            
+            // Add event listener to read more button
+            const readMoreBtn = card.querySelector('.read-more');
+            readMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSingleBlog(post.id);
+            });
+            
+            return card;
+        }
+
+        // Show single blog post
+        function showSingleBlog(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+            
+            blogContent.innerHTML = `
+                <div class="blog-header">
+                    <h1 class="blog-title">${post.title}</h1>
+                    <div class="blog-meta">
+                        <span>By ${post.author}</span>
+                        <span>${formatDate(post.date)}</span>
+                    </div>
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+                <img src="${post.image}" alt="${post.title}" class="blog-image">
+                <div class="blog-content">
+                    ${post.content}
+                </div>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn facebook"><i class="fab fa-facebook-f"></i> Share</a>
+                    <a href="#" class="share-btn twitter"><i class="fab fa-twitter"></i> Tweet</a>
+                    <a href="#" class="share-btn linkedin"><i class="fab fa-linkedin-in"></i> Share</a>
+                </div>
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    <form class="comment-form" id="comment-form">
+                        <div class="form-group">
+                            <label for="comment-name">Your Name</label>
+                            <input type="text" id="comment-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text">Your Comment</label>
+                            <textarea id="comment-text" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Post Comment</button>
+                    </form>
+                    <div class="comments-list" id="comments-list">
+                        <!-- Comments will be loaded here -->
+                    </div>
+                </div>
+            `;
+            
+            // Load comments for this post
+            loadComments(postId);
+            
+            // Add event listener to comment form
+            const commentForm = document.getElementById('comment-form');
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                addComment(postId);
+            });
+            
+            // Show the single blog page
+            showPage('single-blog');
+            
+            // Update navigation
+            navLinks.forEach(link => link.classList.remove('active'));
+        }
+
+        // Load comments for a post
+        function loadComments(postId) {
+            const commentsList = document.getElementById('comments-list');
+            const comments = JSON.parse(localStorage.getItem(`comments-${postId}`)) || [];
+            
+            commentsList.innerHTML = '';
+            
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
+                return;
+            }
+            
+            comments.forEach(comment => {
+                const commentEl = document.createElement('div');
+                commentEl.className = 'comment';
+                commentEl.innerHTML = `
+                    <div class="comment-header">
+                        <span>${comment.name}</span>
+                        <span>${formatDate(comment.date)}</span>
+                    </div>
+                    <p>${comment.text}</p>
+                `;
+                commentsList.appendChild(commentEl);
+            });
+        }
+
+        // Add a new comment
+        function addComment(postId) {
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
+            
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+            
+            if (!name || !text) return;
+            
+            const comments = JSON.parse(localStorage.getItem(`comments-${postId}`)) || [];
+            const newComment = {
+                id: Date.now(),
+                name,
+                text,
+                date: new Date().toISOString()
+            };
+            
+            comments.unshift(newComment);
+            localStorage.setItem(`comments-${postId}`, JSON.stringify(comments));
+            
+            // Clear form
+            nameInput.value = '';
+            textInput.value = '';
+            
+            // Reload comments
+            loadComments(postId);
+        }
+
+        // Handle blog form submission
+        function handleBlogSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const image = document.getElementById('image').value;
+            const excerpt = document.getElementById('excerpt').value;
+            const content = document.getElementById('content').value;
+            const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+            
+            const newPost = {
+                id: Date.now(),
+                title,
+                image,
+                excerpt,
+                content: `<p>${content.replace(/\n/g, '</p><p>')}</p>`,
+                author: "Admin",
+                date: new Date().toISOString().split('T')[0],
+                tags
+            };
+            
+            blogPosts.unshift(newPost);
+            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+            
+            // Reset form
+            blogForm.reset();
+            
+            // Show success message
+            alert('Blog post published successfully!');
+            
+            // Redirect to blog page
+            showPage('blog');
+            renderBlogPosts();
+            
+            // Update navigation
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === '#blog') {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Handle contact form submission
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // In a real application, you would send this data to a server
+            // For this demo, we'll just show an alert and reset the form
+            alert(`Thank you for your message, ${name}! We'll get back to you soon.`);
+            contactForm.reset();
+        }
+
+        // Handle search
+        function handleSearch() {
+            const searchTerm = searchInput.value.trim();
+            renderBlogPosts(searchTerm);
+        }
+
+        // Load more posts
+        function loadMorePosts() {
+            currentPage++;
+            const startIndex = 0;
+            const endIndex = Math.min(currentPage * postsPerPage, filteredPosts.length);
+            const postsToShow = filteredPosts.slice(startIndex, endIndex);
+            
+            // Clear and re-render all posts to maintain order
+            blogPostsGrid.innerHTML = '';
+            
+            postsToShow.forEach(post => {
+                const postCard = createPostCard(post);
+                blogPostsGrid.appendChild(postCard);
+            });
+            
+            // Show/hide load more button
+            loadMoreBtn.style.display = endIndex < filteredPosts.length ? 'block' : 'none';
+        }
+
+        // Format date to readable format
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Initialize the website when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
