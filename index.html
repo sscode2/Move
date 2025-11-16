@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShoppingApp</title>
+    <title>Ravix-BD</title>
     
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -824,6 +824,7 @@ const firebaseConfig = {
         let currentUser = null;
         let userWishlistRef = null;
         let currentBuyingProduct = null;
+		let postLoginAction = null;
         let selectedProductOptions = { color: null, size: null, quantity: 1 };
         let deliveryCharge = 0;
         
@@ -885,21 +886,12 @@ const firebaseConfig = {
             const provider = new GoogleAuthProvider();
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
-                    // The signed-in user info.
-                    const user = result.user;
-                    // ...
+                    if (postLoginAction) {
+                        postLoginAction();
+                        postLoginAction = null; // Reset after execution
+                    }
                 }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.email;
-                    // The AuthCredential type that was used.
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                    // ...
+                    console.error("Google Sign-In Error:", error);
                 });
         }
 
@@ -1407,6 +1399,7 @@ const firebaseConfig = {
 
         const handleBuyNow = (productId) => {
             if (!currentUser) {
+                postLoginAction = () => handleBuyNow(productId);
                 signInWithGoogle();
                 return;
             }
@@ -1679,3 +1672,4 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
+
